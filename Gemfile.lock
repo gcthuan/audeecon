@@ -96,7 +96,6 @@ GEM
       shellany (~> 0.0)
     optionable (0.2.0)
     origin (2.1.1)
-    pg (0.18.1)
     polyglot (0.3.5)
     pry (0.10.1)
       coderay (~> 1.1.0)
@@ -177,7 +176,6 @@ DEPENDENCIES
   guard-rspec (= 2.5.0)
   guard-spork (= 1.5.0)
   mongoid (= 4.0.2)
-  pg
   rails (= 4.1.4)
   rails_12factor (= 0.0.2)
   rspec-rails (= 2.13.1)

@@ -9,7 +9,7 @@ class Api::V1::PacksController < ApplicationController
     #   format.json { render }
     #   format.xml { render xml: @packs }
     # end
-    render json: @packs
+    render json: @packs.to_json(:except => :stickers)
   end
 
   # GET /packs/1

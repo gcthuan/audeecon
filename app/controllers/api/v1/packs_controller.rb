@@ -50,6 +50,6 @@ class Api::V1::PacksController < ApplicationController
   end
 
   def pack_params
-    params.require(:pack).permit(:name, :artist, :description, :profile_image, :preview_image)
+    params.require(:pack).permit(:name, :artist, :description, :profile_image, :preview_image, :size)
   end
 end

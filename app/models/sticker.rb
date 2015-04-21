@@ -1,5 +1,6 @@
 class Sticker
   include Mongoid::Document
+  field :sticker_id
   field	:frame_count, type: Integer
   field :frame_rate, type: Integer
   field :frames_per_col, type: Integer

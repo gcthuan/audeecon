@@ -15,8 +15,8 @@ class Api::V1::PacksController < ApplicationController
   # GET /packs/1
   # GET /packs/1.json
   def show
-    @pack = Pack.find(params[:id])
-
+    params[:size].nil? ? size = 240 : size = params[:size]
+    @pack = Pack.find(params[:id]).stickers.where("height" => size)
     render json: @pack
   end
 
@@ -46,7 +46,7 @@ class Api::V1::PacksController < ApplicationController
   def initialize_database
     Pack.initialize_packs
     @packs = Pack.all
-    render json: @packs
+    render json: @packs.to_json(:except => :stickers)
   end
 
   def pack_params

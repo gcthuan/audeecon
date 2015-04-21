@@ -11,5 +11,6 @@ class Sticker
   field :uri
   field :sprite_uri
   field :padded_sprite_uri
+  field :request_size
   embedded_in :pack
 end

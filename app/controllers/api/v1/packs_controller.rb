@@ -23,7 +23,7 @@ class Api::V1::PacksController < ApplicationController
   def demo
     params[:size].blank? ? size = 240 : size = params[:size]
     @packs = Pack.limit(10).elem_match(stickers: {request_size: size})
-    render json: @packs.to_json
+    render json: @packs.to_json(:except => :_id)
   end
 
   # GET /packs/new

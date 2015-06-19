@@ -17,7 +17,7 @@ class Api::V1::PacksController < ApplicationController
   def show
     params[:size].blank? ? size = 240 : size = params[:size]
     @pack = Pack.find(params[:id]).stickers.where(request_size: size)
-    render json: @pack.to_json(:except => :_id)
+    render json: @pack
   end
 
   def demo
@@ -37,7 +37,13 @@ class Api::V1::PacksController < ApplicationController
   # POST /packs
   # POST /packs.json
   def create
+    @pack = Pack.new(pack_params)
 
+    if @pack.save
+      render json: @pack, status: :created
+    else
+      render json: @pack.errors, status: :unprocessable_entity
+    end
   end
 
   # DELETE /packs/1

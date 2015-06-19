@@ -20,6 +20,11 @@ class Api::V1::PacksController < ApplicationController
     render json: @pack
   end
 
+  def get_sticker 
+    @sticker = Pack.find(params[:id]).stickers.where(_id: params[:sticker_id]).first
+    render json: @sticker
+  end
+
   def demo
     params[:size].blank? ? size = 240 : size = params[:size]
     @packs = Pack.limit(10).elem_match(stickers: {request_size: size})

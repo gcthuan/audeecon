@@ -50,10 +50,32 @@ class Api::V1::UsersController < ApplicationController
 
   #purchase stickers
   def purchase
-    @user = User.where(username: params[:username])
-    pack = params[:pack_id]
-    @user.first.purchase_pack pack
-    render json: @user
+    @user = User.where(username: params[:username]).first
+    if @user.nil?
+      render @user.errors
+    else
+      pack = params[:pack_id]
+      if Pack.where(_id: pack).empty?
+        render json: "No pack with the given id found!"
+      else
+        @user.purchase_pack pack
+        render json: @user
+      end
+    end
+  end
+
+  #show all purchased packs of a user
+  def show_packs
+    @user = User.where(username: params[:username]).first
+    if @user.nil?
+      render json: "No user with the given username found!"
+    else
+      if @user.packs.nil?
+        render json: "This user has not purchased any pack."
+      else
+        render json: Pack.find(@user.packs).to_json(:except => :stickers)
+      end
+    end
   end
 
   def user_params

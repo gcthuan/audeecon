@@ -20,9 +20,14 @@ class Api::V1::PacksController < ApplicationController
     render json: @pack
   end
 
+  #return a sticker
   def get_sticker 
     @sticker = Pack.find(params[:id]).stickers.where(_id: params[:sticker_id]).first
-    render json: @sticker
+    if @sticker.empty?
+      render @stickers.errors
+    else
+      render json: @sticker
+    end
   end
 
   def demo

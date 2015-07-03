@@ -1,4 +1,4 @@
-class Api::V1::UsersController < ApplicationController
+class Api::V2::UsersController < ApplicationController
   protect_from_forgery with: :null_session, if: Proc.new { |c| c.request.format == 'application/json' }
   # GET /users
   # GET /users.json
@@ -73,7 +73,7 @@ class Api::V1::UsersController < ApplicationController
       if @user.packs.nil?
         render json: "This user has not purchased any pack yet."
       else
-        render json: Pack.find(@user.packs).to_json(:except => :stickers)
+        render json: Pack.find(@user.packs).to_json(:except => [:previews, :stickers])
       end
     end
   end

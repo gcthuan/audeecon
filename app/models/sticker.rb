@@ -12,5 +12,6 @@ class Sticker
   field :sprite_uri
   field :padded_sprite_uri
   field :request_size, type: Integer
-  embedded_in :pack
+  belongs_to :pack
+  has_and_belongs_to_many :categories
 end

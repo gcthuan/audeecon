@@ -33,6 +33,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      @user.create_recommender
       render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity

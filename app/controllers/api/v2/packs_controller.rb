@@ -17,7 +17,7 @@ class Api::V2::PacksController < ApplicationController
   def show
     params[:size].blank? ? size = 240 : size = params[:size]
     @pack = Pack.find(params[:id]).stickers.where(request_size: size)
-    render json: @pack.to_json(:only => [:_id, :uri])
+    render json: @pack.to_json(:only => [:_id, :thumbnail_uri])
   end
 
   #return a sticker

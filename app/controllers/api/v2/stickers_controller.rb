@@ -16,7 +16,11 @@ class Api::V2::StickersController < ApplicationController
   # GET /stickers/1.json
   def show
     @sticker = Sticker.find(params[:id])
-    render json: @sticker
+    if @sticker.nil?
+      render json: "No Sticker with the id found"
+    else
+      render json: @sticker
+    end
   end
 
   # GET /stickers/new

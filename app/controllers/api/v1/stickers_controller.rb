@@ -15,9 +15,12 @@ class Api::V1::StickersController < ApplicationController
   # GET /stickers/1
   # GET /stickers/1.json
   def show
-    params[:size].blank? ? size = 240 : size = params[:size]
-    @sticker = Sticker.find(_id: params[:id], request_size: size)
-    render json: @sticker
+    @sticker = Sticker.find(params[:id])
+    if @sticker.nil?
+      render json: "No Sticker with the id found"
+    else
+      render json: @sticker
+    end
   end
 
   # GET /stickers/new

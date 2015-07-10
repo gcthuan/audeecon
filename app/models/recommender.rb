@@ -16,7 +16,12 @@ class Recommender
     self.save!
   end
 
+  # def recommend category
+  #   self.category[category].max_by {|k, v| v}[0]
+  # end
+
   def recommend category
-    self.category[category].max_by {|k, v| v}[0]
+    self.category[category].sort_by(&:last).reverse
   end
+
 end

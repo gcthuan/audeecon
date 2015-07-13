@@ -1,6 +1,7 @@
 class Recommender
   include Mongoid::Document
   field :category, type: Hash, default: Hash.new {}
+  field :previous_sticker, type: Integer, default: 0
   belongs_to :user
 
   def initialize_data

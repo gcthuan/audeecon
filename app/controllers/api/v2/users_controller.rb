@@ -16,7 +16,11 @@ class Api::V2::UsersController < ApplicationController
   # GET /users/1.json
   def show
     @user = User.where(username: params[:username])
-    render json: @user
+    if @user.empty?
+      render json: "No User found!", status: 404
+    else
+      render json: @user
+    end
   end
 
   # GET /users/new

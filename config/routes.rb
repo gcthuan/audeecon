@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   match '/api/v2/users/:username', to: 'api/v2/users#show', via: 'get'
   match '/api/v2/users/:username/purchase', to: 'api/v2/users#purchase', via: 'post'
   match '/api/v2/users/:username/packs', to: 'api/v2/users#show_packs', via: 'get'
+  match '/api/v2/users/:username/recommend', to: 'api/v2/users#recommend', via: 'post'
   match '/api/v2/packs/:id/:sticker_id', to: 'api/v2/packs#get_sticker', via: 'get'
   match '/api/v2/categories/:name', to: 'api/v2/categories#show', via: 'get'
   ##

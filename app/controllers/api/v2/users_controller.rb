@@ -72,7 +72,7 @@ class Api::V2::UsersController < ApplicationController
   def show_packs
     @user = User.where(username: params[:username]).first
     if @user.nil?
-      render json: "No user with the given username found!"
+      render json: "User not found!"
     else
       if @user.packs.nil?
         render json: "This user has not purchased any pack yet."
@@ -82,7 +82,19 @@ class Api::V2::UsersController < ApplicationController
     end
   end
 
+  def recommend
+    @user = User.where(username: params[:username]).first
+    if @user.nil?
+      render json: "No user with the given username found!"
+    else
+      @user.recommender.update params[:sticker_id]
+      result = @user.recommender.recommend params[:sticker_id]
+      p result
+      render json: result
+    end
+  end
+
   def user_params
-    params.permit(:username)
+    params.permit(:username, :sticker_id)
   end
 end

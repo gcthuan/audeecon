@@ -36,11 +36,10 @@ class Recommender
   end
 
   def recommend sticker_id
-    sticker = Sticker.find(sticker_id)
     #random a category in the sticker to recommend base on it
-    category = sticker.categories.skip(rand(sticker.categories.count)).first
+    random_category = Sticker.find(sticker_id).categories.skip(rand(sticker.categories.count)).first
     #get the best recommended category of the previous category
-    recommended_category_name = self.category[category.name].sort_by(&:last).reverse[0][0]
+    recommended_category_name = self.category[random_category.name].sort_by(&:last).reverse[0][0]
     recommended_category = Category.where(name: recommended_category_name).first
     recommend_stickers = recommended_category.stickers
     #return random 20 stickers from the recommended category

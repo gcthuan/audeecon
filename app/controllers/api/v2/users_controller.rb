@@ -35,7 +35,7 @@ class Api::V2::UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
-    pack_ids = [126361870881943, 379426362183248, 1398214440396739]
+    pack_ids = ["126361870881943", "379426362183248", "1398214440396739"]
     if @user.save
       @user.purchase_pack pack_ids
       render json: @user, status: :created

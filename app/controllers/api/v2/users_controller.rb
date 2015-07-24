@@ -38,6 +38,8 @@ class Api::V2::UsersController < ApplicationController
     pack_ids = ["126361870881943", "379426362183248", "1398214440396739"]
     if @user.save
       @user.purchase_pack pack_ids
+      @user.create_recommender
+      @user.recommender.initialize_data
       render json: @user, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -88,8 +90,9 @@ class Api::V2::UsersController < ApplicationController
     if @user.nil?
       render json: "No user with the given username found!"
     else
-      @user.recommender.update params[:sticker_id]
+      #@user.recommender.update params[:sticker_id]
       result = @user.recommender.recommend params[:sticker_id]
+      p "hahah"
       p result
       render json: result
     end

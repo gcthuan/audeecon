@@ -36,16 +36,57 @@ class Recommender
   end
 
   def recommend sticker_id
-    #random a category in the sticker to recommend base on it
-    random_category = Sticker.find(sticker_id).categories.skip(rand(sticker.categories.count)).first
-    #get the best recommended category of the previous category
-    recommended_category_name = self.category[random_category.name].sort_by(&:last).reverse[0][0]
-    recommended_category = Category.where(name: recommended_category_name).first
-    recommend_stickers = recommended_category.stickers
-    #return random 20 stickers from the recommended category
-    result = (0..recommend_stickers.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
-      recommend_stickers.skip(i).first
+    #update recommender table, return if there is no previous sticker id (first time chatting)
+    if self.previous_sticker_id == ""
+      return ["505118502979658", "1402232926740451", "334188156784205", "381536662050983", "658787800830588"]
+    else
+      pre_sticker = Sticker.find(self.previous_sticker_id)
+      cur_sticker = Sticker.find(sticker_id)
+      pre_sticker.categories.each do |pre_category|
+        cur_sticker.categories.each do |cur_category|
+          self.category[pre_category.name][cur_category.name] += 1
+        end
+      end
     end
+    self.previous_sticker_id = sticker_id
+    self.save!
+    #random a category in the sticker to recommend base on it
+    random_category = Sticker.find(sticker_id).categories.skip(rand(Sticker.find(sticker_id).categories.count)).first
+    if random_category.nil?
+      return ["505118502979658", "1402232926740451", "334188156784205", "381536662050983", "658787800830588"]
+    end
+    #get the best 5 recommended categories name to the previous category
+    sorted_list_of_category = self.category[random_category.name].sort_by(&:last).reverse
+    recommended_category_name_0 = sorted_list_of_category[0][0]
+    recommended_category_name_1 = sorted_list_of_category[1][0]
+    recommended_category_name_1 = sorted_list_of_category[2][0]
+    recommended_category_name_1 = sorted_list_of_category[3][0]
+    recommended_category_name_1 = sorted_list_of_category[4][0]
+    #find the 5 categories using their names
+    recommended_category_0 = Category.where(name: recommended_category_name_0).first
+    recommended_category_1 = Category.where(name: recommended_category_name_1).first
+    recommended_category_2 = Category.where(name: recommended_category_name_1).first
+    recommended_category_3 = Category.where(name: recommended_category_name_1).first
+    recommended_category_4 = Category.where(name: recommended_category_name_1).first
+    #get the list of stickers of each category
+    recommend_stickers_0 = recommended_category_0.stickers
+    recommend_stickers_1 = recommended_category_1.stickers
+    recommend_stickers_2 = recommended_category_2.stickers
+    recommend_stickers_3 = recommended_category_3.stickers
+    recommend_stickers_4 = recommended_category_4.stickers
+    #return 5 random stickers from the 5 recommended categories, 1 sticker for 1 category
+    result_0 = recommend_stickers_0.skip(rand(recommend_stickers_0.count)).first
+    result_1 = recommend_stickers_1.skip(rand(recommend_stickers_1.count)).first
+    result_2 = recommend_stickers_1.skip(rand(recommend_stickers_2.count)).first
+    result_3 = recommend_stickers_1.skip(rand(recommend_stickers_3.count)).first
+    result_4 = recommend_stickers_1.skip(rand(recommend_stickers_4.count)).first
+    # result_0 = (0..recommend_stickers_0.count-1).sort_by{rand}.slice(0, 1).collect! do |i|
+    #   recommend_stickers_0.skip(i).first
+    # end
+    # result_1 = (0..recommend_stickers_1.count-1).sort_by{rand}.slice(0, 1).collect! do |i|
+    #   recommend_stickers_1.skip(i).first
+    # end
+    final_result = [result_0._id, result_1._id, result_2._id, result_3._id, result_4._id]
   end
 
 end

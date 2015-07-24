@@ -38,7 +38,13 @@ class Recommender
   def recommend sticker_id
     #update recommender table, return if there is no previous sticker id (first time chatting)
     if self.previous_sticker_id == ""
-      return ["505118502979658", "1402232926740451", "334188156784205", "381536662050983", "658787800830588"]
+      self.previous_sticker_id = sticker_id
+      self.save!
+      final_result = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
+        Sticker.skip(i).first._id
+      end
+      p final_result
+      return final_result
     else
       pre_sticker = Sticker.find(self.previous_sticker_id)
       cur_sticker = Sticker.find(sticker_id)
@@ -53,7 +59,11 @@ class Recommender
     #random a category in the sticker to recommend base on it
     random_category = Sticker.find(sticker_id).categories.skip(rand(Sticker.find(sticker_id).categories.count)).first
     if random_category.nil?
-      return ["505118502979658", "1402232926740451", "334188156784205", "381536662050983", "658787800830588"]
+      final_result = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
+        Sticker.skip(i).first._id
+      end
+      p final_result
+      return final_result
     end
     #get the best 5 recommended categories name to the previous category
     sorted_list_of_category = self.category[random_category.name].sort_by(&:last).reverse

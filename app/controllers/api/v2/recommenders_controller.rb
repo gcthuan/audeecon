@@ -23,8 +23,13 @@ class Api::V2::RecommendersController < ApplicationController
     end
   end
 
+  def recommend
+    @recommender = User.where(username: params[:username]).first.recommender
+    result = @recommender.recommend params[:sticker_id]
+    render json: result
+  end
   def recommender_params
-    parans.permit(:username)
+    parans.permit(:username, :sticker_id)
   end
 
 end

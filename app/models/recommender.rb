@@ -37,6 +37,7 @@ class Recommender
   end
 
   def recommend sticker_id
+
     #update recommender table, return if there is no previous sticker id (first time chatting)
     if self.previous_sticker_id == ""
       self.previous_sticker_id = sticker_id

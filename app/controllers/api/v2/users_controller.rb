@@ -92,9 +92,18 @@ class Api::V2::UsersController < ApplicationController
     else
       #@user.recommender.update params[:sticker_id]
       result = @user.recommender.recommend params[:sticker_id]
-      p "hahah"
-      p result
       render json: result
+    end
+  end
+
+  def show_latest_recommendation
+    @user = User.where(username: params[:username]).first
+    if @user.nil?
+      render json: "No user with the given username found!"
+    else
+      #@user.recommender.update params[:sticker_id]
+      @latest_recommendation = @user.recommender.latest_recommendation
+      render json: @latest_recommendation
     end
   end
 

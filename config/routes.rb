@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   match '/api/v2/users/:username/recommend', to: 'api/v2/users#recommend', via: 'post'
   match '/api/v2/packs/:id/:sticker_id', to: 'api/v2/packs#get_sticker', via: 'get'
   match '/api/v2/categories/:name', to: 'api/v2/categories#show', via: 'get'
+  match '/api/v2/recommenders/:username', to: 'api/v2/recommenders#show', via: 'get'
   ##
   namespace :api do
     namespace :v1 do

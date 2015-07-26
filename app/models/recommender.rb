@@ -2,6 +2,7 @@ class Recommender
   include Mongoid::Document
   field :category, type: Hash, default: Hash.new {}
   field :previous_sticker_id, type: String, default: ""
+  field :latest_recommendation, type: Array
   belongs_to :user
 
   def initialize_data
@@ -39,12 +40,11 @@ class Recommender
     #update recommender table, return if there is no previous sticker id (first time chatting)
     if self.previous_sticker_id == ""
       self.previous_sticker_id = sticker_id
-      self.save!
-      final_result = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
+      self.latest_recommendation = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
         Sticker.skip(i).first._id
       end
-      p final_result
-      return final_result
+      self.save!
+      return self.latest_recommendation
     else
       pre_sticker = Sticker.find(self.previous_sticker_id)
       cur_sticker = Sticker.find(sticker_id)
@@ -55,15 +55,15 @@ class Recommender
       end
     end
     self.previous_sticker_id = sticker_id
-    self.save!
+    
     #random a category in the sticker to recommend base on it
     random_category = Sticker.find(sticker_id).categories.skip(rand(Sticker.find(sticker_id).categories.count)).first
     if random_category.nil?
-      final_result = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
+      self.latest_recommendation = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
         Sticker.skip(i).first._id
       end
-      p final_result
-      return final_result
+      self.save!
+      return self.latest_recommendation
     end
     #get the best 5 recommended categories name to the previous category
     sorted_list_of_category = self.category[random_category.name].sort_by(&:last).reverse
@@ -96,7 +96,9 @@ class Recommender
     # result_1 = (0..recommend_stickers_1.count-1).sort_by{rand}.slice(0, 1).collect! do |i|
     #   recommend_stickers_1.skip(i).first
     # end
-    final_result = [result_0._id, result_1._id, result_2._id, result_3._id, result_4._id]
+    self.latest_recommendation = [result_0._id, result_1._id, result_2._id, result_3._id, result_4._id]
+    self.save!
+    return self.latest_recommendation
   end
 
 end

@@ -34,15 +34,19 @@ class Api::V2::UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-    pack_ids = ["126361870881943", "379426362183248", "1398214440396739"]
-    if @user.save
-      @user.purchase_pack pack_ids
-      @user.create_recommender
-      @user.recommender.initialize_data
-      render json: @user, status: :created
+    if User.where(username: user_params[:username]).empty?
+      @user = User.new(user_params)
+      pack_ids = ["126361870881943", "379426362183248", "1398214440396739"]
+      if @user.save
+        @user.purchase_pack pack_ids
+        @user.create_recommender
+        @user.recommender.initialize_data
+        render json: @user, status: :created
+      else
+        render json: @user.errors, status: :unprocessable_entity
+      end
     else
-      render json: @user.errors, status: :unprocessable_entity
+      render json: "This username has been chosen!".to_json, status: :conflict
     end
   end
 
@@ -55,7 +59,7 @@ class Api::V2::UsersController < ApplicationController
     head :no_user
   end
 
-  #purchase stickers
+  #purchase pack
   def purchase
     @user = User.where(username: params[:username]).first
     if @user.nil?
@@ -63,9 +67,25 @@ class Api::V2::UsersController < ApplicationController
     else
       pack = params[:pack_id]
       if Pack.where(_id: pack).empty?
-        render json: "No pack with the given id found!"
+        render json: "No pack with the given id found!".to_json
       else
         @user.purchase_pack pack
+        render json: @user
+      end
+    end
+  end
+
+  #unpurchase pack
+  def unpurchase
+    @user = User.where(username: params[:username]).first
+    if @user.nil?
+      render @user.errors
+    else
+      pack = params[:pack_id]
+      if Pack.where(_id: pack).empty?
+        render json: "No pack with the given id found!".to_json
+      else
+        @user.unpurchase_pack pack
         render json: @user
       end
     end
@@ -78,7 +98,7 @@ class Api::V2::UsersController < ApplicationController
       render json: "User not found!"
     else
       if @user.packs.nil?
-        render json: "This user has not purchased any pack yet."
+        render json: "This user has not purchased any pack yet.".to_json
       else
         render json: Pack.find(@user.packs).to_json(:except => [:previews, :stickers])
       end
@@ -88,7 +108,7 @@ class Api::V2::UsersController < ApplicationController
   def recommend
     @user = User.where(username: params[:username]).first
     if @user.nil?
-      render json: "No user with the given username found!"
+      render json: "No user with the given username found!".to_json
     else
       #@user.recommender.update params[:sticker_id]
       result = @user.recommender.recommend params[:sticker_id]
@@ -99,7 +119,7 @@ class Api::V2::UsersController < ApplicationController
   def show_latest_recommendation
     @user = User.where(username: params[:username]).first
     if @user.nil?
-      render json: "No user with the given username found!"
+      render json: "No user with the given username found!".to_json
     else
       #@user.recommender.update params[:sticker_id]
       @latest_recommendation = @user.recommender.latest_recommendation

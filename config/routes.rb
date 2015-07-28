@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   match '/api/v2/packs/demo', to: 'api/v2/packs#demo', via: 'get'
   match '/api/v2/users/:username', to: 'api/v2/users#show', via: 'get'
   match '/api/v2/users/:username/purchase', to: 'api/v2/users#purchase', via: 'post'
+  match '/api/v2/users/:username/purchase', to: 'api/v2/users#unpurchase', via: 'put'
   match '/api/v2/users/:username/packs', to: 'api/v2/users#show_packs', via: 'get'
   match '/api/v2/users/:username/recommend', to: 'api/v2/users#recommend', via: 'post'
   match '/api/v2/users/:username/recommend', to: 'api/v2/users#show_latest_recommendation', via: 'get'

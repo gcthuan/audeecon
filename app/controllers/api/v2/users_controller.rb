@@ -100,7 +100,7 @@ class Api::V2::UsersController < ApplicationController
       if @user.packs.nil?
         render json: "This user has not purchased any pack yet.".to_json
       else
-        render json: Pack.find(@user.packs).to_json(:except => [:previews, :stickers])
+        render json: @user.packs.to_json(:except => [:previews, :stickers])
       end
     end
   end

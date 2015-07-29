@@ -2,18 +2,16 @@ class User
   include Mongoid::Document
   field :username
 
-  field :packs, type: Array
   has_one :recommender
-
+  has_and_belongs_to_many :packs
   index({ username: 1 }, { unique: true, name: "username_index" })
 
   def purchase_pack pack_id
-    self.add_to_set(packs: pack_id)
+    self.packs << Pack.find(pack_id)
   end
 
   def unpurchase_pack pack_id
-  	self.packs.delete(pack_id)
-  	self.save
+  	self.packs.find(pack_id).destroy
   end
 
 end

@@ -56,48 +56,38 @@ class Recommender
       end
     end
     self.previous_sticker_id = sticker_id
-    
+    #get all purchased packs of the user
+    @user = self.user
+    packs_list = @user.packs.only(:_id).map(&:_id).shuffle
     #random a category in the sticker to recommend base on it
     random_category = Sticker.find(sticker_id).categories.skip(rand(Sticker.find(sticker_id).categories.count)).first
     if random_category.nil?
-      self.latest_recommendation = (0..Sticker.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
-        Sticker.skip(i).first._id
+      purchased_stickers = Sticker.where(:pack_id.in => packs_list)
+      self.latest_recommendation = (0..purchased_stickers.count-1).sort_by{rand}.slice(0, 5).collect! do |i|
+        purchased_stickers.skip(i).first._id
       end
       self.save!
       return self.latest_recommendation
     end
-    #get the best 5 recommended categories name to the previous category
+    #get the best 5 recommended categories to the previous category
     sorted_list_of_category = self.category[random_category.name].sort_by(&:last).reverse
-    recommended_category_name_0 = sorted_list_of_category[0][0]
-    recommended_category_name_1 = sorted_list_of_category[1][0]
-    recommended_category_name_1 = sorted_list_of_category[2][0]
-    recommended_category_name_1 = sorted_list_of_category[3][0]
-    recommended_category_name_1 = sorted_list_of_category[4][0]
-    #find the 5 categories using their names
-    recommended_category_0 = Category.where(name: recommended_category_name_0).first
-    recommended_category_1 = Category.where(name: recommended_category_name_1).first
-    recommended_category_2 = Category.where(name: recommended_category_name_1).first
-    recommended_category_3 = Category.where(name: recommended_category_name_1).first
-    recommended_category_4 = Category.where(name: recommended_category_name_1).first
-    #get the list of stickers of each category
-    recommend_stickers_0 = recommended_category_0.stickers
-    recommend_stickers_1 = recommended_category_1.stickers
-    recommend_stickers_2 = recommended_category_2.stickers
-    recommend_stickers_3 = recommended_category_3.stickers
-    recommend_stickers_4 = recommended_category_4.stickers
-    #return 5 random stickers from the 5 recommended categories, 1 sticker for 1 category
-    result_0 = recommend_stickers_0.skip(rand(recommend_stickers_0.count)).first
-    result_1 = recommend_stickers_1.skip(rand(recommend_stickers_1.count)).first
-    result_2 = recommend_stickers_1.skip(rand(recommend_stickers_2.count)).first
-    result_3 = recommend_stickers_1.skip(rand(recommend_stickers_3.count)).first
-    result_4 = recommend_stickers_1.skip(rand(recommend_stickers_4.count)).first
-    # result_0 = (0..recommend_stickers_0.count-1).sort_by{rand}.slice(0, 1).collect! do |i|
-    #   recommend_stickers_0.skip(i).first
-    # end
-    # result_1 = (0..recommend_stickers_1.count-1).sort_by{rand}.slice(0, 1).collect! do |i|
-    #   recommend_stickers_1.skip(i).first
-    # end
-    self.latest_recommendation = [result_0._id, result_1._id, result_2._id, result_3._id, result_4._id]
+    recommended_category = []
+    final_sticker = []
+    (0..4).each do |i|
+      recommended_category[i] = Category.where(name: sorted_list_of_category[i][0]).first
+      #get the recommended stickers in the packs that the user has purchased of a category
+      recommended_stickers_of_a_category = recommended_category[i].stickers.where(:pack_id.in => packs_list)
+      final_sticker[i] = recommended_stickers_of_a_category.skip(rand(recommended_stickers_of_a_category.count)).first
+      if final_sticker[i].nil?
+        random_purchased_pack = Pack.find(packs_list.first)
+        final_sticker[i] = (0..random_purchased_pack.stickers.count-1).sort_by{rand}.slice(0, 1).collect! do |i|
+          random_purchased_pack.stickers.skip(i).first
+        end
+      end
+
+    end
+
+    self.latest_recommendation = final_sticker.map {|sticker| sticker.to_a.first._id}
     self.save!
     return self.latest_recommendation
   end

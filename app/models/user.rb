@@ -11,7 +11,8 @@ class User
   end
 
   def unpurchase_pack pack_id
-  	self.packs.find(pack_id).destroy
+  	self.pack_ids.delete(pack_id)
+    self.save
   end
 
 end

@@ -38,9 +38,9 @@ class Api::V2::UsersController < ApplicationController
       @user = User.new(user_params)
       pack_ids = ["126361870881943", "379426362183248", "1398214440396739"]
       if @user.save
-        @user.purchase_pack pack_ids
         @user.create_recommender
         @user.recommender.initialize_data
+        @user.purchase_pack pack_ids
         render json: @user, status: :created
       else
         render json: @user.errors, status: :unprocessable_entity

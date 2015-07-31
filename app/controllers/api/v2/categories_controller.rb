@@ -49,7 +49,7 @@ class Api::V2::CategoriesController < ApplicationController
   end
   # 
   def initialize_categories_database
-    Category.initialize_categories
+    Category.delay.initialize_categories
     @categories = Category.all
     render json: @categories
   end

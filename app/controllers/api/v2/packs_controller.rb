@@ -66,7 +66,7 @@ class Api::V2::PacksController < ApplicationController
   end
   # get all packs from id_list.txt
   def initialize_database
-    Pack.initialize_packs
+    Pack.delay.initialize_packs
     @packs = Pack.all
     render json: @packs.to_json(:except => :stickers)
   end

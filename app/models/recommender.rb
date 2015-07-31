@@ -17,10 +17,7 @@ class Recommender
     end
     self.save!
   end
-
-  # def recommend category
-  #   self.category[category].max_by {|k, v| v}[0]
-  # end
+  handle_asynchronously :initialize_data
 
   def update sticker_id
     if self.previous_sticker_id != ""

@@ -6,6 +6,9 @@ gem 'rails', '4.1.4'
 gem 'delayed_job_active_record'
 gem 'database_cleaner'
 gem 'mongoid', '4.0.2'
+gem 'delayed_job_mongoid'
+gem "workless"
+gem 'daemons'
 
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets

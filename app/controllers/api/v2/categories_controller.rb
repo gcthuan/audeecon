@@ -51,7 +51,7 @@ class Api::V2::CategoriesController < ApplicationController
   def initialize_categories_database
     Category.delay.initialize_categories
     @categories = Category.all
-    render json: "Success!", status: 200
+    render json: "Success!".to_json
   end
 
   def pack_params

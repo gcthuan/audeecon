@@ -9,10 +9,13 @@ class Category
   	categories_list = File.read('lib/categories/categories_list.txt').split("\n").map
   	categories_list.each do |category|
   	  stickers_list = File.read("lib/categories/#{category}.txt").split("\n").map
-  	  current_category = Category.create(name: "#{category}")
-  	  stickers_list.each do |sticker_id|
-  	  	sticker = Sticker.find(sticker_id)
-  	  	current_category.stickers << sticker
+      if Category.where(name: "#{category}").nil?
+  	    current_category = Category.create(name: "#{category}")
+      else
+  	    stickers_list.each do |sticker_id|
+  	  	  sticker = Sticker.find(sticker_id)
+  	  	  current_category.stickers << sticker
+        end
       end
   	end
   end

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root 'static_pages#home'
+  root 'pages#home'
   #api v1
   match '/api/v1/packs/initialize', to: 'api/v1/packs#initialize_database', via: 'get'
   match '/api/v1/packs/demo', to: 'api/v1/packs#demo', via: 'get'
@@ -33,4 +33,9 @@ Rails.application.routes.draw do
     end
 
   end
+
+  match '/about', to: 'pages#about', via: 'get'
+  match '/api-list', to: 'pages#api_list', via: 'get'
+  match '/demo', to: 'pages#demo', via: 'get'
+  match '/features', to: 'pages#features', via: 'get'
 end

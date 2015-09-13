@@ -1,13 +1,17 @@
 <% content_for :title, "Audeecon Home" %>
   <body>
     <div class="row">
-      <div class="small-8 columns">
-        <p>
-          Some introduction about Audeecon here
-        </p>
-      </div>
       <div class="small-4 columns">
-        <p>A promo picture here</p>
+        <%= link_to image_tag("keyboard.PNG"), image_path("keyboard.PNG")%> 
+      </div>      
+      <div class="small-8 columns">
+        <ul class="no-bullet intro">
+          <li>Audeecon is a sticker-based voice messenger, aiming to create a whole new way for people to communicate with each other in everyday life.</li>
+          <li>Every message will be associated with an emotion sticker on your choice so that you can fully express your emotion to the others.</li>
+          <li>No text or video allowed in Audeecon.</li>
+          <li>Have a sticker store to purchase and manage stickers.</li>
+          <li>Have a simple recommender to suggest sticker whenever you want to send a message.</li>
+        </ul>
       </div>
     </div>
     <%= javascript_include_tag "application" %>

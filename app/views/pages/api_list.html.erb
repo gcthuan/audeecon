@@ -15,12 +15,95 @@
   	  </thead>
   	  <tbody>
   	  	<tr>
-  	  	  <td>url of api here</td>
-  	  	  <td>action of GET</td>
-  	  	  <td>action of POST</td>
-  	  	  <td>action of PUT</td>
-  	  	  <td>action of DELETE</td>
+  	  	  <td class="api-url">audeecon.herokuapp.com/api/v2/users</td>
+  	  	  <td>return all registered users with details</td>
+  	  	  <td>create a new user
+            <li>username: String</li>
+          </td>
+  	  	  <td>not available</td>
+  	  	  <td>not available</td>
   	  	</tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/users/:username</td>
+          <td>return a specific user with the corresponding username</td>
+          <td>not available</td>
+          <td>update information of the user</td>
+          <td>remove the user from database</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/packs</td>
+          <td>show all sticker packs in the database with minor details</td>
+          <td>available but not useful because we do not use this to create packs</td>
+          <td>update one or more attributes of the specific pack</td>
+          <td>not available</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/packs/:id</td>
+          <td>return a specific pack with details corresponding to the :id</td>
+          <td>not available</td>
+          <td>update one or more attributes of the specific pack</td>
+          <td>delete the pack from database</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/stickers</td>
+          <td>return all stickers in the database but it can be overkill</td>
+          <td>available but not useful because we do not use this to create stickers</td>
+          <td>not available</td>
+          <td>not available</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/stickers/:id</td>
+          <td>return the sticker in details of the corresponding :id</td>
+          <td>not available</td>
+          <td>update information of the sticker</td>
+          <td>delete the sticker from database</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/categories</td>
+          <td>return all categories in the database</td>
+          <td>available but not useful because we do not use this to create categories</td>
+          <td>not available</td>
+          <td>not available</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/categories/:name</td>
+          <td>return the category of the corresponding :name</td>
+          <td>not available</td>
+          <td>update information od the category</td>
+          <td>delete the category from database</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/categories/initialize</td>
+          <td>create all catagories using a set of predefined text files contain multiple sticker ids that belong to that category</td>
+          <td>not available</td>
+          <td>not available</td>
+          <td>not available</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/packs/initialize</td>
+          <td>create all the stickers and stickers packs using data from Facebook</td>
+          <td>not available</td>
+          <td>not available</td>
+          <td>not available</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/users/:username/purchase</td>
+          <td>not available</td>
+          <td>add a sticker packs to a user's collection 
+            <li>pack_id: String</li>
+          </td>
+          <td>not available</td>
+          <td>not available</td>
+        </tr>
+        <tr>
+          <td class="api-url">audeecon.herokuapp.com/api/v2/users/:username</td>
+          <td>return a list of previous recommended stickers</td>
+          <td>update the recommender table with a sticker_id of the most recent sticker and return recommendation for next sticker
+            <li>sticker_id: String</li>
+          </td>
+          <td>not available</td>
+          <td>not available</td>
+        </tr>                                                                               
   	  </tbody>
   	</table>
   </div>

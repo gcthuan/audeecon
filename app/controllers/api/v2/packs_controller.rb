@@ -3,7 +3,7 @@ class Api::V2::PacksController < ApplicationController
   # GET /packs
   # GET /packs.json
   def index
-    @packs = Pack.all
+    @packs = Pack.all.order_by(created_at: 'desc')
 
     # respond_to do |format|
     #   format.json { render }

@@ -54,7 +54,7 @@ class Api::V2::PacksController < ApplicationController
     @store_curl = params[:store_curl]
     render action: 'new_packs'
     if !@store_curl.blank?
-      Pack.initialize_packs params[:store_curl]
+      Pack.delay.initialize_packs params[:store_curl]
     end
   end
 

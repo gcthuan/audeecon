@@ -16,7 +16,7 @@ class Pack
     data = JSON.parse(all)
     data.fetch("payload").fetch("packs").collect do |index|
       pack_id = index.fetch("id")
-      if !Pack.find(pack_id)
+      if !Pack.where(_id: pack_id).exists?
         previews = index.fetch("previews")
         puts "Running #{pack_id}"
         raw_pack = %x[#{"curl 'https://www.facebook.com/stickers/state/pack/?pack_id=#{pack_id}' #{cookie} -k"}]

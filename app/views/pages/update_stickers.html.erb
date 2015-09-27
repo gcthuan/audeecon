@@ -1,0 +1,14 @@
+<%= content_for :title, "Update Stickers Store"%>
+<form>
+  <div class="row">
+<%= form_tag("api/v2/packs#initialize_database", method: "get") do %>
+<%= label_tag(:store_curl, "store curl") %>
+<%= text_field_tag(:store_curl) %>
+<%= label_tag(:pack_info_curl, "pack info curl") %>
+<%= text_field_tag(:pack_info_curl) %>
+<%= label_tag(:pack_images_curl, "pack images curl") %>
+<%= text_field_tag(:pack_images_curl) %>
+<%= submit_tag("Submit", class: "button") %>
+<% end %>
+  </div>
+</form>

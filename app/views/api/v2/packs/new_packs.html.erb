@@ -1,0 +1,10 @@
+<%= content_for :title, "Update Stickers Store"%>
+<form>
+  <div class="row">
+<%= form_tag({controller: "packs", action: "new_packs"}, method: "get") do %>
+<%= label_tag(:store_curl, "store curl") %>
+<%= text_field_tag(:store_curl) %>
+<%= submit_tag("Submit", class: "button") %>
+<% end %>
+  </div>
+</form>

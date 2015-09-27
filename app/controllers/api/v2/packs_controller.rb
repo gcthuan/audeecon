@@ -50,10 +50,12 @@ class Api::V2::PacksController < ApplicationController
     head :no_pack
   end
   # get all packs from id_list.txt
-  def initialize_database
-    Pack.delay.initialize_packs
-    @packs = Pack.all
-    render json: @packs.to_json(:except => :stickers)
+  def new_packs
+    @store_curl = params[:store_curl]
+    render action: 'new_packs'
+    if !@store_curl.blank?
+      Pack.delay.initialize_packs params[:store_curl]
+    end
   end
 
   def pack_params

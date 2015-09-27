@@ -13,4 +13,10 @@ class PagesController < ApplicationController
 
 	def features
 	end
+
+	def update_stickers
+
+	end
+
+
 end

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   match '/api/v1/users/:username/packs', to: 'api/v1/users#show_packs', via: 'get'
   match '/api/v1/packs/:id/:sticker_id', to: 'api/v1/packs#get_sticker', via: 'get'
   #api v2
-  match '/api/v2/packs/initialize', to: 'api/v2/packs#initialize_database', via: 'get'
+  match 'update-stickers', to: 'api/v2/packs#new_packs', via: 'get'
   match '/api/v2/categories/initialize', to: 'api/v2/categories#initialize_categories_database', via: 'get'
   match '/api/v2/packs/demo', to: 'api/v2/packs#demo', via: 'get'
   match '/api/v2/users/:username', to: 'api/v2/users#show', via: 'get'
@@ -38,4 +38,6 @@ Rails.application.routes.draw do
   match '/api-list', to: 'pages#api_list', via: 'get'
   match '/demo', to: 'pages#demo', via: 'get'
   match '/features', to: 'pages#features', via: 'get'
+  #match '/update-stickers', to: 'pages#update_stickers', via: 'get'
+
 end

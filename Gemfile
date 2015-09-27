@@ -10,6 +10,7 @@ gem 'delayed_job_mongoid'
 gem "workless"
 gem 'daemons'
 gem 'foundation-rails'
+gem 'foundation_rails_helper'
 gem 'high_voltage', '~> 2.4.0'
 
 gem 'sass-rails', '~> 5.0.0'
